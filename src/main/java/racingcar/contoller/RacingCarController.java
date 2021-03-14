@@ -10,7 +10,9 @@ import racingcar.dto.InputManagement;
 import racingcar.view.ResultView;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class RacingCarController {
 
@@ -23,13 +25,9 @@ public class RacingCarController {
     }
 
     public List<Car> initRacingCars() {
-        List<Car> cars = new ArrayList();
-
-        for (String carName : inputManagement.getCarNames()) {
-            cars.add(new Car(carName));
-        }
-
-        return cars;
+        return Arrays.stream(inputManagement.getCarNames())
+                .map(Car::new)
+                .collect(Collectors.toList());
     }
 
     public boolean hasNextRound(Round round) {

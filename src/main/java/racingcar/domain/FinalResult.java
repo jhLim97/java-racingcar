@@ -17,24 +17,25 @@ public class FinalResult {
 
     public Cars getWinnersInCars() {
         Map<Name, Position> finalRound = finalResult.get(finalResult.keySet()
-                                                                        .stream()
-                                                                            .filter(round -> round.getRound() == finalResult.size())
-                                                                            .findFirst()
-                                                                            .orElse(null));
+                                                            .stream()
+                                                            .filter(round -> round.getRound() == finalResult.size())
+                                                            .findFirst()
+                                                            .orElse(null));
 
-        int maxPosition = Collections.max(finalRound.values()
-                                                        .stream()
-                                                            .map(position -> position.getPosition())
-                                                            .collect(Collectors.toList()));
+        int maxPosition = finalRound.values()
+                .stream()
+                .map(Position::getPosition)
+                .max(Integer::compare)
+                .orElse(-1);
 
         List<Map.Entry<Name, Position>> results = new ArrayList<>(finalRound.entrySet());
 
         return new Cars(results.stream()
                 .filter((Map.Entry<Name, Position> result) -> result.getValue()
-                                                                        .getPosition() == maxPosition)
+                                                                    .getPosition() == maxPosition)
                 .map(result -> new Car(result.getKey()
-                                                .toString(), result.getValue()
-                                                                        .getPosition()))
+                                             .toString(), result.getValue()
+                                                                .getPosition()))
                 .collect(Collectors.toList()));
     }
 }
